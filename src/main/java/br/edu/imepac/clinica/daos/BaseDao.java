@@ -43,7 +43,7 @@ public abstract class BaseDao {
      */
     protected void fecharRecursos(Connection conn, PreparedStatement stmt, ResultSet rs) {
         try {
-            if (rs != null) rs.close();
+            if (rs != null) rs.close();cd
         } catch (SQLException e) {
             System.err.println("Erro ao fechar ResultSet: " + e.getMessage());
         }
@@ -55,7 +55,7 @@ public abstract class BaseDao {
         try {
             if (conn != null) conn.close();
         } catch (SQLException e) {
-            System.err.println("Erro ao fechar Connection: " + e.getMessage());
+            System.err.println(" Erro ao fechar Connection: " + e.getMessage());
         }
     }
     
