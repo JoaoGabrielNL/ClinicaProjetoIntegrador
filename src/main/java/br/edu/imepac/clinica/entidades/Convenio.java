@@ -4,10 +4,7 @@
  */
 package br.edu.imepac.clinica.entidades;
 
-/**
- *
- * @author Conta
- */
+
 public class Convenio {
-    
+    S
 }
