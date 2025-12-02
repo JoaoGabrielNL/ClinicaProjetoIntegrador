@@ -43,7 +43,7 @@ public abstract class BaseDao {
      */
     protected void fecharRecursos(Connection conn, PreparedStatement stmt, ResultSet rs) {
         try {
-            if (rs != null) rs.close();cd
+            if (rs != null) rs.close();
         } catch (SQLException e) {
             System.err.println("Erro ao fechar ResultSet: " + e.getMessage());
         }
