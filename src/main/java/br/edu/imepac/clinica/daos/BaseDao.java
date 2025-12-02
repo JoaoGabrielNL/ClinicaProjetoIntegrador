@@ -55,7 +55,7 @@ public abstract class BaseDao {
         try {
             if (conn != null) conn.close();
         } catch (SQLException e) {
-            System.err.println("Erro ao fechar Connection: " + e.getMessage());
+            System.err.println(" Erro ao fechar Connection: " + e.getMessage());
         }
     }
     
