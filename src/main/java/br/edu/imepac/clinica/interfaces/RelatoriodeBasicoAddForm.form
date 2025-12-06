@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="3"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="253" max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                      <Component id="jScrollPane2" min="-2" pref="733" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="319" max="-2" attributes="0"/>
+                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
+              <Component id="jScrollPane2" min="-2" pref="298" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="57" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="18" style="0"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="33" red="33" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Relatorio Basico da Clinica"/>
+      </Properties>
+    </Component>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTextPane" name="jTextPane1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="O aplicativo da cl&#xed;nica tem como objetivo principal facilitar o agendamento de consultas, a gest&#xe3;o de prontu&#xe1;rios eletr&#xf4;nicos, e promover a comunica&#xe7;&#xe3;o eficiente entre m&#xe9;dicos, pacientes e atendentes. Ele integra diversas funcionalidades para melhorar a experi&#xea;ncia do paciente e otimizar a administra&#xe7;&#xe3;o da cl&#xed;nica.  Funcionalidades Principais:  Login/Cadastro de Usu&#xe1;rio:  Objetivo: Permitir o acesso seguro para pacientes, m&#xe9;dicos, atendentes e administradores, com login simples e registro.  Funcionalidade: Cadastro de usu&#xe1;rios com diferentes n&#xed;veis de acesso para cada tipo de usu&#xe1;rio da plataforma.  Agenda e Consultas:  Objetivo: Facilitar o agendamento, visualiza&#xe7;&#xe3;o e cancelamento de consultas.  Funcionalidade: Pacientes podem agendar, visualizar e cancelar consultas, enquanto m&#xe9;dicos e atendentes gerenciam a agenda de atendimentos.  Atendimento e Prontu&#xe1;rio Eletr&#xf4;nico:  Objetivo: Facilitar o registro e acompanhamento do hist&#xf3;rico m&#xe9;dico dos pacientes.  Funcionalidade: M&#xe9;dicos podem acessar e atualizar os dados dos pacientes, incluindo hist&#xf3;rico de consultas, diagn&#xf3;sticos e exames realizados.  Especialidades M&#xe9;dicas:  Objetivo: Organizar e categorizar as especialidades m&#xe9;dicas dispon&#xed;veis para facilitar a busca de profissionais.  Funcionalidade: Pacientes podem buscar m&#xe9;dicos e servi&#xe7;os de acordo com a especialidade m&#xe9;dica necess&#xe1;ria.  Conv&#xea;nios:  Objetivo: Permitir que pacientes consultem os conv&#xea;nios aceitos pela cl&#xed;nica.  Funcionalidade: Pacientes podem verificar se seus planos de sa&#xfa;de s&#xe3;o aceitos na cl&#xed;nica e consultar as op&#xe7;&#xf5;es de conv&#xea;nios dispon&#xed;veis.  Portal do Paciente:  Objetivo: Oferecer aos pacientes um portal de f&#xe1;cil acesso ao seu hist&#xf3;rico m&#xe9;dico.  Funcionalidade: Pacientes podem acessar o hist&#xf3;rico de consultas, exames e prescri&#xe7;&#xf5;es m&#xe9;dicas anteriores.  Pesquisa de Satisfa&#xe7;&#xe3;o:  Objetivo: Coletar feedback dos pacientes sobre o atendimento m&#xe9;dico e a experi&#xea;ncia geral com o sistema.  Funcionalidade: O aplicativo realiza pesquisas de satisfa&#xe7;&#xe3;o peri&#xf3;dicas, permitindo &#xe0; cl&#xed;nica melhorar a qualidade do atendimento com base nos dados coletados."/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JButton" name="jButton1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Ok"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+      </Events>
+    </Component>
+  </SubComponents>
+</Form>
