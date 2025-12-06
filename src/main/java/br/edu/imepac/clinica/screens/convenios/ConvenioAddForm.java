@@ -92,12 +92,31 @@ public class ConvenioAddForm extends javax.swing.JFrame {
     }//GEN-LAST:event_nomeFieldActionPerformed
 
     private void cadastrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarButtonActionPerformed
-    JOptionPane.showMessageDialog(this,"Preencha todos os campos!");
+                                            
+    String nome = nomeField.getText().trim();
+    String descricao = descricaoField.getText().trim();
+
+    // 1 — Validação
+    if (nome.isEmpty() || descricao.isEmpty()) {
+        JOptionPane.showMessageDialog(this,
+                "Preencha todos os campos!",
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    JOptionPane.showMessageDialog(this,
+            "Convênio cadastrado com sucesso!",
+            "Sucesso",
+            JOptionPane.INFORMATION_MESSAGE);
+
+   
+    nomeField.setText("");
+    descricaoField.setText("");
+
+
     }//GEN-LAST:event_cadastrarButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
