@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Classe base para todos os DAOs.
@@ -21,8 +22,8 @@ import java.sql.SQLException;
 public abstract class BaseDao {
     
     private static final String URL = "jdbc:mysql://localhost:3306/clinica";
-    private static final String USUARIO = "clinica";
-    private static final String SENHA = "Aa123456!";
+    private static final String USUARIO = "root";
+    private static final String SENHA = "1234";
     
     /**
      * Obtém uma conexão ativa com o banco de dados.
@@ -58,14 +59,22 @@ public abstract class BaseDao {
             System.err.println(" Erro ao fechar Connection: " + e.getMessage());
         }
     }
+    protected void fecharRecursos(Connection conn, PreparedStatement ps) {
+        try {
+            if (ps != null) ps.close();
+            if (conn != null) conn.close();
+        } catch (SQLException e) {
+            System.err.println("Erro ao fechar recursos: " + e.getMessage());
+        }
+    }
     
-    /**
-     * Fecha apenas a conexão e o PreparedStatement (para operações sem ResultSet).
-     * 
-     * @param conn conexão com o banco
-     * @param stmt comando SQL preparado
-     */
-    protected void fecharRecursos(Connection conn, PreparedStatement stmt) {
-        fecharRecursos(conn, stmt, null);
+    protected void fecharRecursos(Connection conn, Statement stmt, ResultSet rs) {
+        try {
+            if (rs != null) rs.close();
+            if (stmt != null) stmt.close();
+            if (conn != null) conn.close();
+        } catch (SQLException e) {
+            System.err.println("Erro ao fechar recursos: " + e.getMessage());
+        }
     }
 }

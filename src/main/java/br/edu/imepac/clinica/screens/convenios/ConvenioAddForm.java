@@ -1,151 +1,89 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package br.edu.imepac.clinica.screens.convenios;
 
+import br.edu.imepac.clinica.daos.ConvenioDao;
+import br.edu.imepac.clinica.entidades.Convenio;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
-/**
- *
- * @author Geovani
- */
-public class ConvenioAddForm extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ConvenioAddForm.class.getName());
+public class ConvenioAddForm extends JFrame {
+
+    private JTextField txtNome;
+    private JTextArea txtDescricao;
+    private JButton btnSalvar;
 
     public ConvenioAddForm() {
+        setTitle("Cadastrar Novo Convênio");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
         initComponents();
     }
 
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        JPanel painelInputs = new JPanel(new GridLayout(3, 2, 10, 10));
 
-        jLabel1 = new javax.swing.JLabel();
-        nomeField = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        descricaoField = new javax.swing.JTextArea();
-        cadastrarButton = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+        painelInputs.add(new JLabel("Nome:"));
+        txtNome = new JTextField();
+        painelInputs.add(txtNome);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        painelInputs.add(new JLabel("Descrição:"));
+        txtDescricao = new JTextArea(5, 20);
+        JScrollPane scrollDescricao = new JScrollPane(txtDescricao);
+        painelInputs.add(scrollDescricao);
 
-        jLabel1.setText("Nome");
+        btnSalvar = new JButton("Salvar Convênio");
+        btnSalvar.addActionListener(e -> salvarConvenio());
+        
+        JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        painelBotoes.add(btnSalvar);
 
-        nomeField.addActionListener(this::nomeFieldActionPerformed);
-
-        jLabel2.setText("Descrição");
-
-        descricaoField.setColumns(20);
-        descricaoField.setRows(5);
-        jScrollPane1.setViewportView(descricaoField);
-
-        cadastrarButton.setText("Cradastrar");
-        cadastrarButton.addActionListener(this::cadastrarButtonActionPerformed);
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(51, 0, 204));
-        jLabel3.setText("CADASTRAR C0NVÊNIO");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(119, 119, 119)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(cadastrarButton)
-                    .addComponent(jLabel3)
-                    .addComponent(jScrollPane1))
-                .addGap(0, 254, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel3)
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cadastrarButton)
-                .addContainerGap(64, Short.MAX_VALUE))
-        );
-
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void nomeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nomeFieldActionPerformed
-
-    private void cadastrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarButtonActionPerformed
-                                            
-    String nome = nomeField.getText().trim();
-    String descricao = descricaoField.getText().trim();
-
-    // 1 — Validação
-    if (nome.isEmpty() || descricao.isEmpty()) {
-        JOptionPane.showMessageDialog(this,
-                "Preencha todos os campos!",
-                "Erro",
-                JOptionPane.ERROR_MESSAGE);
-        return;
+        getContentPane().setLayout(new BorderLayout(10, 10));
+        getContentPane().add(painelInputs, BorderLayout.CENTER);
+        getContentPane().add(painelBotoes, BorderLayout.SOUTH);
+        
+        ((JPanel)getContentPane()).setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
     }
-
-    JOptionPane.showMessageDialog(this,
-            "Convênio cadastrado com sucesso!",
-            "Sucesso",
-            JOptionPane.INFORMATION_MESSAGE);
-
-   
-    nomeField.setText("");
-    descricaoField.setText("");
-
-
-    }//GEN-LAST:event_cadastrarButtonActionPerformed
-
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
+    
+    private void salvarConvenio() {
+        String nome = txtNome.getText().trim();
+        String descricao = txtDescricao.getText().trim();
+        
+        if (nome.isEmpty() || descricao.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Preencha todos os campos!", "Validação", JOptionPane.WARNING_MESSAGE);
+            return;
         }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new ConvenioAddForm().setVisible(true));
+        try {
+            Convenio convenio = new Convenio();
+            convenio.setNome(nome);
+            convenio.setDescricao(descricao);
+
+            ConvenioDao dao = new ConvenioDao();
+            boolean salvo = dao.salvar(convenio);
+
+            if (salvo) {
+                JOptionPane.showMessageDialog(this, "Convênio cadastrado com sucesso! ID: " + convenio.getId(), "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                txtNome.setText("");
+                txtDescricao.setText("");
+                this.dispose(); 
+            } else {
+                JOptionPane.showMessageDialog(this, "Falha ao salvar. Nenhuma linha afetada.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (RuntimeException ex) {
+            // Captura erros de Banco de Dados forçados pelo DAO (SQL error)
+            JOptionPane.showMessageDialog(this, "Erro de Banco de Dados: " + ex.getMessage(), "Erro Fatal", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro inesperado: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton cadastrarButton;
-    private javax.swing.JTextArea descricaoField;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField nomeField;
-    // End of variables declaration//GEN-END:variables
 }
