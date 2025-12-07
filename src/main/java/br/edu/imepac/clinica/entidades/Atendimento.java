@@ -3,7 +3,7 @@ package br.edu.imepac.clinica.entidades;
 public class Atendimento {
     private Long id;
     private Long pacienteId;
-    private String dataRegistro; // yyyy-MM-dd
+    private String dataRegistro; 
     private String anamnese;
     private String diagnostico;
     private String conduta;
