@@ -5,7 +5,9 @@
 package br.edu.imepac.clinica.screens;
 
 import br.edu.imepac.clinica.enums.PerfilUsuario;
+import br.edu.imepac.clinica.screens.agendamento.AgendaDiariaForm;
 import br.edu.imepac.clinica.screens.agendamento.ConsultaAddForm;
+import br.edu.imepac.clinica.screens.agendamento.HistoricoConsultasForm;
 import br.edu.imepac.clinica.screens.convenios.ConvenioAddForm;
 import br.edu.imepac.clinica.screens.especialidades.EspecialidadeAddForm;
 import br.edu.imepac.clinica.screens.pacientes.PacienteAddForm; 
@@ -44,6 +46,8 @@ public class MainMenu extends javax.swing.JFrame {
         JMenuItemMedicoList = new javax.swing.JMenuItem();
         jMenuConsultas = new javax.swing.JMenu();
         jMenuItemConsultaAdd = new javax.swing.JMenuItem();
+        jMenuItemAgendaDiariaForm = new javax.swing.JMenuItem();
+        jMenuItemHistoricoConsultasForm = new javax.swing.JMenuItem();
         cadastrarEspecialidade = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -111,6 +115,22 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         jMenuConsultas.add(jMenuItemConsultaAdd);
+
+        jMenuItemAgendaDiariaForm.setText("Agenda de consuntas");
+        jMenuItemAgendaDiariaForm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAgendaDiariaFormActionPerformed(evt);
+            }
+        });
+        jMenuConsultas.add(jMenuItemAgendaDiariaForm);
+
+        jMenuItemHistoricoConsultasForm.setText("Historico de consultas");
+        jMenuItemHistoricoConsultasForm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemHistoricoConsultasFormActionPerformed(evt);
+            }
+        });
+        jMenuConsultas.add(jMenuItemHistoricoConsultasForm);
 
         jMenuBar1.add(jMenuConsultas);
 
@@ -215,6 +235,16 @@ public class MainMenu extends javax.swing.JFrame {
         convenioForm.setVisible(true);
     }//GEN-LAST:event_jMenuItemConvenioAddActionPerformed
 
+    private void jMenuItemAgendaDiariaFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAgendaDiariaFormActionPerformed
+       AgendaDiariaForm agendaForm = new AgendaDiariaForm();
+        agendaForm.setVisible(true);
+    }//GEN-LAST:event_jMenuItemAgendaDiariaFormActionPerformed
+
+    private void jMenuItemHistoricoConsultasFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemHistoricoConsultasFormActionPerformed
+       HistoricoConsultasForm historicoForm = new HistoricoConsultasForm();
+        historicoForm.setVisible(true);
+    }//GEN-LAST:event_jMenuItemHistoricoConsultasFormActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -247,9 +277,11 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuConsultas;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItemAgendaDiariaForm;
     private javax.swing.JMenuItem jMenuItemAtendimentoForm;
     private javax.swing.JMenuItem jMenuItemConsultaAdd;
     private javax.swing.JMenuItem jMenuItemConvenioAdd;
+    private javax.swing.JMenuItem jMenuItemHistoricoConsultasForm;
     private javax.swing.JMenu jMenuItemLoginPaciente;
     private javax.swing.JMenuItem jMenuItemMedicoAdd;
     private javax.swing.JMenuItem jMenuItemPacienteAdd;

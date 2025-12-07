@@ -62,7 +62,8 @@ CREATE TABLE IF NOT EXISTS consulta (
     data_consulta DATE NOT NULL,     
     hora_consulta VARCHAR(5) NOT NULL, 
     observacoes TEXT,
-    convenio_id BIGINT NULL,        
+    convenio_id BIGINT NULL,
+    realizada TINYINT(1) DEFAULT 0 NOT NULL,
     FOREIGN KEY (paciente_id) REFERENCES paciente(id) ON DELETE RESTRICT,
     FOREIGN KEY (medico_id) REFERENCES medico(id) ON DELETE RESTRICT,
     FOREIGN KEY (convenio_id) REFERENCES convenio(id) ON DELETE SET NULL

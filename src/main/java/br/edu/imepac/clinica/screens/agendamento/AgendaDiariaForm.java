@@ -36,23 +36,29 @@ public class AgendaDiariaForm extends JFrame {
     }
 
     private void initComponents() {
-        JPanel painelTopo = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        painelTopo.add(new JLabel("Consultas Agendadas"));
+       JPanel painelTopo = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    painelTopo.add(new JLabel("Consultas Agendadas"));
 
-        tableAgenda = new JTable(new DefaultTableModel(
-                new Object[]{"ID", "Data", "Hora", "Paciente", "Médico", "Convênio"}, 0));
-        JScrollPane scroll = new JScrollPane(tableAgenda);
+    tableAgenda = new JTable(new DefaultTableModel(
+            new Object[]{"ID", "Data", "Hora", "Paciente", "Médico", "Convênio"}, 0)); 
+    JScrollPane scroll = new JScrollPane(tableAgenda);
 
-        JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JButton btnAtualizar = new JButton("Atualizar Agenda");
-        btnAtualizar.addActionListener(e -> carregarAgenda());
-        painelBotoes.add(btnAtualizar);
+    JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    
+    JButton btnMarcarRealizada = new JButton("Marcar como Realizada");
+    btnMarcarRealizada.addActionListener(e -> marcarConsultaComoRealizada());
+    
+    JButton btnAtualizar = new JButton("Atualizar Agenda");
+    btnAtualizar.addActionListener(e -> carregarAgenda());
+    
+    painelBotoes.add(btnMarcarRealizada);
+    painelBotoes.add(btnAtualizar);
 
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(painelTopo, BorderLayout.NORTH);
-        getContentPane().add(scroll, BorderLayout.CENTER);
-        getContentPane().add(painelBotoes, BorderLayout.SOUTH);
-    }
+    getContentPane().setLayout(new BorderLayout());
+    getContentPane().add(painelTopo, BorderLayout.NORTH);
+    getContentPane().add(scroll, BorderLayout.CENTER);
+    getContentPane().add(painelBotoes, BorderLayout.SOUTH);
+}
     
     private String getNomeMedico(Long id) {
         if (id == null || id == 0) return "N/A";
@@ -112,4 +118,37 @@ public class AgendaDiariaForm extends JFrame {
             ex.printStackTrace();
         }
     }
+
+    private void marcarConsultaComoRealizada() {
+    int linhaSelecionada = tableAgenda.getSelectedRow();
+    
+    if (linhaSelecionada == -1) {
+        JOptionPane.showMessageDialog(this, "Selecione uma consulta na tabela.", "Atenção", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    try {
+     
+        long consultaId = (long) tableAgenda.getModel().getValueAt(linhaSelecionada, 0);
+
+        int confirmacao = JOptionPane.showConfirmDialog(this, 
+                "Tem certeza que deseja marcar a consulta ID " + consultaId + " como realizada?", 
+                "Confirmar", JOptionPane.YES_NO_OPTION);
+
+        if (confirmacao == JOptionPane.YES_OPTION) {
+            ConsultaDao dao = new ConsultaDao();
+            boolean sucesso = dao.marcarComoRealizada(consultaId);
+
+            if (sucesso) {
+                JOptionPane.showMessageDialog(this, "Consulta marcada como realizada e movida para o histórico.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                carregarAgenda(); 
+            } else {
+                JOptionPane.showMessageDialog(this, "Falha ao atualizar o status da consulta.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Erro ao marcar consulta: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
+    }
+}
 }

@@ -11,6 +11,16 @@ public class Consulta {
 
     public Consulta() {}
 
+    private boolean realizada;
+
+    public boolean isRealizada() {
+        return realizada;
+    }
+
+    public void setRealizada(boolean realizada) {
+        this.realizada = realizada;
+    }
+    
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
