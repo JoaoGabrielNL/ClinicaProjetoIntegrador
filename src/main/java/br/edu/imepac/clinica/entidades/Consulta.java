@@ -4,10 +4,10 @@ public class Consulta {
     private Long id;
     private Long pacienteId;
     private Long medicoId;
-    private String dataConsulta; // yyyy-MM-dd
-    private String horaConsulta; // HH:mm
+    private String dataConsulta; 
+    private String horaConsulta; 
     private String observacoes;
-    private Long convenioId; // Pode ser null
+    private Long convenioId; 
 
     public Consulta() {}
 

@@ -4,7 +4,7 @@ public class Paciente {
     private Long id;
     private String nome;
     private String cpf;
-    private String dataNascimento; // yyyy-MM-dd
+    private String dataNascimento;
     private String telefone;
     private String email;
     private String endereco;
