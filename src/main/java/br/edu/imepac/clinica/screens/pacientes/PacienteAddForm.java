@@ -21,7 +21,7 @@ public class PacienteAddForm extends JFrame {
     private JButton btnSalvar, btnEditar, btnExcluir, btnNovo, btnBuscar;
     private JTextField txtBusca;
 
-    public void PacienteForm() {
+   public PacienteAddForm() {
         setTitle("Cadastro de Pacientes");
         setSize(800, 500);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
