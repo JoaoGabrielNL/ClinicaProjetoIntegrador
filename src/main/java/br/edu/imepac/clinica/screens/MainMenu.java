@@ -5,7 +5,8 @@
 package br.edu.imepac.clinica.screens;
 
 import br.edu.imepac.clinica.screens.especialidades.EspecialidadeAddForm;
-
+import br.edu.imepac.clinica.screens.pacientes.PacienteAddForm; 
+import br.edu.imepac.clinica.screens.pacientes.PacienteListForm;
 /**
  *
  * @author evertonhf
@@ -34,6 +35,9 @@ public class MainMenu extends javax.swing.JFrame {
         cadastrarEspecialidade = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuPacientes = new javax.swing.JMenu();
+        jMenuItemPacienteAdd = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,6 +55,22 @@ public class MainMenu extends javax.swing.JFrame {
 
         jMenu2.setText("Convênios");
         jMenuBar1.add(jMenu2);
+
+        jMenuPacientes.setText("Paciente");
+
+        jMenuItemPacienteAdd.setText("Cadastrar");
+        jMenuItemPacienteAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPacienteAddActionPerformed(evt);
+            }
+        });
+        jMenuPacientes.add(jMenuItemPacienteAdd);
+
+        jMenuItem4.setText("Listar");
+        jMenuItem4.setActionCommand("Listar");
+        jMenuPacientes.add(jMenuItem4);
+
+        jMenuBar1.add(jMenuPacientes);
 
         setJMenuBar(jMenuBar1);
 
@@ -73,6 +93,12 @@ public class MainMenu extends javax.swing.JFrame {
         especialidadeAddForm.pack();
         especialidadeAddForm.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItemPacienteAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPacienteAddActionPerformed
+       PacienteAddForm pacienteAddForm = new PacienteAddForm();
+        pacienteAddForm.pack();
+        pacienteAddForm.setVisible(true);
+    }//GEN-LAST:event_jMenuItemPacienteAddActionPerformed
 
     /**
      * @param args the command line arguments
@@ -104,5 +130,8 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItemPacienteAdd;
+    private javax.swing.JMenu jMenuPacientes;
     // End of variables declaration//GEN-END:variables
 }
