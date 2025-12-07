@@ -1,29 +1,38 @@
 package br.edu.imepac.clinica.screens.pacientes;
 
 import br.edu.imepac.clinica.daos.PacienteDao;
+import br.edu.imepac.clinica.daos.PortalPacienteDao; 
 import br.edu.imepac.clinica.entidades.Paciente;
+import br.edu.imepac.clinica.entidades.PortalPaciente; 
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat; 
 
 public class PacienteAddForm extends JFrame {
 
     private JTextField txtNome;
     private JTextField txtCpf;
-    private JTextField txtDataNascimento;
+    private JTextField txtDataNascimento; 
     private JTextField txtTelefone;
     private JTextField txtEmail;
     private JTextField txtEndereco;
+    
+    private JTextField txtLogin; 
+    private JPasswordField txtSenha; 
+    
     private JTable tablePacientes;
     private JButton btnSalvar, btnEditar, btnExcluir, btnNovo, btnBuscar;
     private JTextField txtBusca;
 
    public PacienteAddForm() {
         setTitle("Cadastro de Pacientes");
-        setSize(800, 500);
+        setSize(800, 700); 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initComponents();
         carregarTabela();
@@ -34,6 +43,8 @@ public class PacienteAddForm extends JFrame {
         JPanel form = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(4,4,4,4);
+        c.fill = GridBagConstraints.HORIZONTAL; 
+
         c.gridx = 0; c.gridy = 0;
         form.add(new JLabel("Nome:"), c);
         c.gridx = 1; c.gridy = 0; c.gridwidth = 3;
@@ -47,7 +58,7 @@ public class PacienteAddForm extends JFrame {
         form.add(txtCpf, c);
 
         c.gridx = 2; c.gridy = 1;
-        form.add(new JLabel("Data Nasc (yyyy-MM-dd):"), c);
+        form.add(new JLabel("Data Nasc (yyyy-MM-dd):"), c); 
         c.gridx = 3; c.gridy = 1;
         txtDataNascimento = new JTextField(10);
         form.add(txtDataNascimento, c);
@@ -69,9 +80,22 @@ public class PacienteAddForm extends JFrame {
         c.gridx = 1; c.gridy = 3; c.gridwidth = 3;
         txtEndereco = new JTextField(40);
         form.add(txtEndereco, c);
+        
+        c.gridx = 0; c.gridy = 4; c.gridwidth = 1;
+        form.add(new JLabel("Login:"), c);
+        c.gridx = 1; c.gridy = 4;
+        txtLogin = new JTextField(15);
+        form.add(txtLogin, c);
+
+        c.gridx = 2; c.gridy = 4;
+        form.add(new JLabel("Senha:"), c);
+        c.gridx = 3; c.gridy = 4;
+        txtSenha = new JPasswordField(10);
+        form.add(txtSenha, c);
+
 
         JPanel botoes = new JPanel();
-        btnSalvar = new JButton("Salvar");
+        btnSalvar = new JButton("Salvar e Criar Acesso"); 
         btnEditar = new JButton("Editar");
         btnExcluir = new JButton("Inativar");
         btnNovo = new JButton("Novo");
@@ -108,19 +132,55 @@ public class PacienteAddForm extends JFrame {
             }
         });
 
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.add(form, BorderLayout.NORTH);
+        topPanel.add(painelBusca, BorderLayout.CENTER);
+        
         getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(form, BorderLayout.NORTH);
-        getContentPane().add(painelBusca, BorderLayout.CENTER);
-        getContentPane().add(scroll, BorderLayout.SOUTH);
-        getContentPane().add(botoes, BorderLayout.PAGE_END);
+        getContentPane().add(topPanel, BorderLayout.NORTH);
+        getContentPane().add(scroll, BorderLayout.CENTER); 
+        getContentPane().add(botoes, BorderLayout.SOUTH);
     }
+    
+    private String processarDataUI(String dataInput) throws ParseException {
+        if (dataInput == null || dataInput.trim().isEmpty()) {
+            return null; 
+        }
+        
+        SimpleDateFormat formatoDB = new SimpleDateFormat("yyyy-MM-dd");
+        formatoDB.setLenient(false); 
+
+        try {
+            java.util.Date data = formatoDB.parse(dataInput);
+            return formatoDB.format(data); 
+        } catch (ParseException e) {
+            throw new ParseException("Formato de data inválido. Use yyyy-MM-dd.", 0);
+        }
+    }
+
 
     private void salvarPaciente() {
         try {
+            String nome = txtNome.getText();
+            String login = txtLogin.getText();
+            String senha = new String(txtSenha.getPassword());
+            String dataNascUI = txtDataNascimento.getText(); 
+
+            if (nome.isBlank()) {
+                JOptionPane.showMessageDialog(this, "O campo Nome é obrigatório.", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (login.isBlank() || senha.isBlank()) {
+                JOptionPane.showMessageDialog(this, "Login e Senha são obrigatórios para criar o acesso.", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            String dataNascDB = processarDataUI(dataNascUI);
+            
             Paciente p = new Paciente();
-            p.setNome(txtNome.getText());
+            p.setNome(nome);
             p.setCpf(txtCpf.getText());
-            p.setDataNascimento(txtDataNascimento.getText());
+            p.setDataNascimento(dataNascDB); 
             p.setTelefone(txtTelefone.getText());
             p.setEmail(txtEmail.getText());
             p.setEndereco(txtEndereco.getText());
@@ -128,27 +188,54 @@ public class PacienteAddForm extends JFrame {
             PacienteDao dao = new PacienteDao();
             dao.inserir(p);
 
-            JOptionPane.showMessageDialog(this, "Paciente salvo. ID: " + p.getId());
+            PortalPaciente pp = new PortalPaciente();
+            pp.setPacienteId(p.getId());
+            pp.setLogin(login);
+            pp.setSenha(senha); 
+
+            PortalPacienteDao ppDao = new PortalPacienteDao();
+            ppDao.criarAcesso(pp);
+
+
+            JOptionPane.showMessageDialog(this, 
+                "Paciente salvo. ID: " + p.getId() + "\n" + 
+                "Acesso criado para o login: " + pp.getLogin(), 
+                "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            
             carregarTabela();
             limparCampos();
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro de Data", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro de banco de dados ao salvar: " + ex.getMessage(), "Erro de Persistência", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Erro ao salvar: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Erro ao salvar: " + ex.getMessage(), "Erro Inesperado", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void editarPaciente() {
         int row = tablePacientes.getSelectedRow();
-        if (row < 0) { JOptionPane.showMessageDialog(this, "Selecione um paciente na tabela"); return; }
+        if (row < 0) { JOptionPane.showMessageDialog(this, "Selecione um paciente na tabela para editar."); return; }
+        
         try {
+            String nome = txtNome.getText();
+            if (nome.isBlank()) {
+                JOptionPane.showMessageDialog(this, "O campo Nome é obrigatório.", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
             Long id = Long.parseLong(tablePacientes.getValueAt(row, 0).toString());
             PacienteDao dao = new PacienteDao();
             Paciente p = dao.buscarPorId(id);
             if (p == null) { JOptionPane.showMessageDialog(this, "Paciente não encontrado"); return; }
+            
+            String dataNascDB = processarDataUI(txtDataNascimento.getText()); 
 
-            p.setNome(txtNome.getText());
+            p.setNome(nome);
             p.setCpf(txtCpf.getText());
-            p.setDataNascimento(txtDataNascimento.getText());
+            p.setDataNascimento(dataNascDB); 
             p.setTelefone(txtTelefone.getText());
             p.setEmail(txtEmail.getText());
             p.setEndereco(txtEndereco.getText());
@@ -157,12 +244,36 @@ public class PacienteAddForm extends JFrame {
             JOptionPane.showMessageDialog(this, "Paciente atualizado");
             carregarTabela();
             limparCampos();
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Erro de Data", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Erro ao editar: " + ex.getMessage());
         }
     }
-
+    
+    private void carregarDadosSelecionado() {
+        int row = tablePacientes.getSelectedRow();
+        if (row < 0) return;
+        Long id = Long.parseLong(tablePacientes.getValueAt(row, 0).toString());
+        try {
+            PacienteDao dao = new PacienteDao();
+            Paciente p = dao.buscarPorId(id);
+            if (p != null) {
+                txtNome.setText(p.getNome());
+                txtCpf.setText(p.getCpf());
+                
+                txtDataNascimento.setText(p.getDataNascimento() != null ? p.getDataNascimento() : "");
+                
+                txtTelefone.setText(p.getTelefone());
+                txtEmail.setText(p.getEmail());
+                txtEndereco.setText(p.getEndereco());
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     private void inativarPaciente() {
         int row = tablePacientes.getSelectedRow();
         if (row < 0) { JOptionPane.showMessageDialog(this, "Selecione um paciente na tabela"); return; }
@@ -210,26 +321,6 @@ public class PacienteAddForm extends JFrame {
         }
     }
 
-    private void carregarDadosSelecionado() {
-        int row = tablePacientes.getSelectedRow();
-        if (row < 0) return;
-        Long id = Long.parseLong(tablePacientes.getValueAt(row, 0).toString());
-        try {
-            PacienteDao dao = new PacienteDao();
-            Paciente p = dao.buscarPorId(id);
-            if (p != null) {
-                txtNome.setText(p.getNome());
-                txtCpf.setText(p.getCpf());
-                txtDataNascimento.setText(p.getDataNascimento());
-                txtTelefone.setText(p.getTelefone());
-                txtEmail.setText(p.getEmail());
-                txtEndereco.setText(p.getEndereco());
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
     private void limparCampos() {
         txtNome.setText("");
         txtCpf.setText("");
@@ -237,6 +328,8 @@ public class PacienteAddForm extends JFrame {
         txtTelefone.setText("");
         txtEmail.setText("");
         txtEndereco.setText("");
+        txtLogin.setText(""); 
+        txtSenha.setText(""); 
     }
 
 

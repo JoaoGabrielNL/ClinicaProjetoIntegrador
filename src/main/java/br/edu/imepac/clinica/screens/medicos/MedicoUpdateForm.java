@@ -17,8 +17,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class MedicoAddForm extends JFrame {
+public class MedicoUpdateForm extends JFrame {
 
+    private Medico medicoOriginal; 
     private JTextField txtNome;
     private JTextField txtCrm;
     private JTextField txtTelefone;
@@ -26,13 +27,22 @@ public class MedicoAddForm extends JFrame {
     private JComboBox<EspecialidadeWrapper> cbEspecialidade;
     private JButton btnSalvar;
 
-    public MedicoAddForm() {
-        setTitle("Cadastro de Médico");
+    public MedicoUpdateForm(Long medicoId) {
+        setTitle("Atualizar Médico ID: " + medicoId);
         setSize(450, 350);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        
+        loadData(medicoId); 
+        if (medicoOriginal == null) {
+            JOptionPane.showMessageDialog(this, "Médico não encontrado para o ID: " + medicoId, "Erro", JOptionPane.ERROR_MESSAGE);
+            this.dispose();
+            return;
+        }
+        
         initComponents();
         carregarEspecialidades();
+        setDataForm(); 
     }
 
     private void initComponents() {
@@ -58,8 +68,8 @@ public class MedicoAddForm extends JFrame {
         cbEspecialidade = new JComboBox<>();
         painel.add(cbEspecialidade);
 
-        btnSalvar = new JButton("Salvar Médico");
-        btnSalvar.addActionListener(e -> salvarMedico());
+        btnSalvar = new JButton("Atualizar Médico");
+        btnSalvar.addActionListener(e -> atualizarMedico());
         
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER));
         painelBotoes.add(btnSalvar);
@@ -68,8 +78,19 @@ public class MedicoAddForm extends JFrame {
         getContentPane().add(painel, BorderLayout.CENTER);
         getContentPane().add(painelBotoes, BorderLayout.SOUTH);
         
-        // Adiciona padding
         ((JPanel)getContentPane()).setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    }
+    
+    private void loadData(Long medicoId) {
+        MedicoDao dao = new MedicoDao();
+        this.medicoOriginal = dao.buscarPorId(medicoId);
+    }
+    
+    private void setDataForm() {
+        txtNome.setText(medicoOriginal.getNome());
+        txtCrm.setText(medicoOriginal.getCrm());
+        txtTelefone.setText(medicoOriginal.getTelefone());
+        txtEmail.setText(medicoOriginal.getEmail());
     }
 
     private void carregarEspecialidades() {
@@ -78,14 +99,23 @@ public class MedicoAddForm extends JFrame {
             List<Especialidade> lista = dao.listarTodos();
             
             cbEspecialidade.removeAllItems();
+            int indexSelecionar = 0;
+            
             if (lista.isEmpty()) {
                  cbEspecialidade.addItem(new EspecialidadeWrapper(0, "Nenhuma especialidade cadastrada"));
                  btnSalvar.setEnabled(false);
             } else {
                  btnSalvar.setEnabled(true);
+                 int i = 0;
                  for (Especialidade e : lista) {
-                    cbEspecialidade.addItem(new EspecialidadeWrapper(e.getId(), e.getNome()));
+                    EspecialidadeWrapper wrapper = new EspecialidadeWrapper(e.getId(), e.getNome());
+                    cbEspecialidade.addItem(wrapper);
+                    if (e.getId() == medicoOriginal.getEspecialidadeId()) {
+                        indexSelecionar = i;
+                    }
+                    i++;
                 }
+                cbEspecialidade.setSelectedIndex(indexSelecionar);
             }
 
         } catch (Exception ex) {
@@ -93,27 +123,27 @@ public class MedicoAddForm extends JFrame {
         }
     }
 
-    private void salvarMedico() {
+    private void atualizarMedico() {
         try {
             validarCamposObrigatorios();
             
             EspecialidadeWrapper especialidadeSelecionada = (EspecialidadeWrapper) cbEspecialidade.getSelectedItem();
             
-            Medico medico = new Medico();
-            medico.setNome(txtNome.getText());
-            medico.setCrm(txtCrm.getText());
-            medico.setTelefone(txtTelefone.getText());
-            medico.setEmail(txtEmail.getText());
-            medico.setEspecialidadeId(especialidadeSelecionada.getId());
+            // Usamos o objeto original para garantir que o ID está correto
+            medicoOriginal.setNome(txtNome.getText());
+            medicoOriginal.setCrm(txtCrm.getText());
+            medicoOriginal.setTelefone(txtTelefone.getText());
+            medicoOriginal.setEmail(txtEmail.getText());
+            medicoOriginal.setEspecialidadeId(especialidadeSelecionada.getId());
 
             MedicoDao dao = new MedicoDao();
-            boolean status = dao.salvar(medico);
+            boolean status = dao.atualizar(medicoOriginal);
 
             if (status) {
-                JOptionPane.showMessageDialog(this, "Médico cadastrado com sucesso! ID: " + medico.getId(), "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                limparCampos();
+                JOptionPane.showMessageDialog(this, "Médico atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                this.dispose(); 
             } else {
-                JOptionPane.showMessageDialog(this, "Erro ao cadastrar Médico. Verifique o log.", "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Erro ao atualizar Médico. Verifique o log.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
 
         } catch (CampoObrigatorioException ex) {
@@ -128,18 +158,6 @@ public class MedicoAddForm extends JFrame {
         if (txtNome.getText().isBlank() || txtCrm.getText().isBlank() || cbEspecialidade.getSelectedItem() == null || ((EspecialidadeWrapper)cbEspecialidade.getSelectedItem()).getId() == 0) {
             throw new CampoObrigatorioException(List.of("Nome", "CRM", "Especialidade"));
         }
-    }
-
-    private void limparCampos() {
-        txtNome.setText("");
-        txtCrm.setText("");
-        txtTelefone.setText("");
-        txtEmail.setText("");
-        cbEspecialidade.setSelectedIndex(0);
-    }
-    
-    public static void main(String[] args) {
-        new MedicoAddForm().setVisible(true);
     }
     
     private class EspecialidadeWrapper {

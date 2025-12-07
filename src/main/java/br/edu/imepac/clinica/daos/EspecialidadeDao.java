@@ -13,12 +13,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * DAO responsável pelas operações CRUD da entidade Especialidade.
- * Utiliza abordagem manual de try/finally com métodos de fechamento da BaseDao.
- *
- * @author everton
- */
 public class EspecialidadeDao extends BaseDao implements Persistente<Especialidade> {
 
     @Override

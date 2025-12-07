@@ -52,4 +52,8 @@ public class Convenio {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    public void setValor(double aDouble) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

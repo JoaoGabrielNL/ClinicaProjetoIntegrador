@@ -4,13 +4,16 @@
  */
 package br.edu.imepac.clinica.screens;
 
+import br.edu.imepac.clinica.enums.PerfilUsuario;
+import br.edu.imepac.clinica.screens.agendamento.ConsultaAddForm;
+import br.edu.imepac.clinica.screens.convenios.ConvenioAddForm;
 import br.edu.imepac.clinica.screens.especialidades.EspecialidadeAddForm;
 import br.edu.imepac.clinica.screens.pacientes.PacienteAddForm; 
-import br.edu.imepac.clinica.screens.pacientes.PacienteListForm;
-/**
- *
- * @author evertonhf
- */
+import br.edu.imepac.clinica.screens.medicos.MedicoAddForm;
+import br.edu.imepac.clinica.screens.medicos.MedicoListForm;
+import br.edu.imepac.clinica.screens.prontuario.AtendimentoForm;
+import br.edu.imepac.clinica.screens.pacientes.PacienteLoginForm;
+
 public class MainMenu extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainMenu.class.getName());
@@ -18,7 +21,7 @@ public class MainMenu extends javax.swing.JFrame {
     /**
      * Creates new form MainMenu
      */
-    public MainMenu() {
+    public MainMenu(PerfilUsuario SECRETARIA) {
         initComponents();
     }
 
@@ -32,14 +35,84 @@ public class MainMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuBar1 = new javax.swing.JMenuBar();
+        jMenuItemLoginPaciente = new javax.swing.JMenu();
+        jMenuItemPacienteLogin = new javax.swing.JMenuItem();
+        jMenuPacientes = new javax.swing.JMenu();
+        jMenuItemPacienteAdd = new javax.swing.JMenuItem();
+        jMenuMedicos = new javax.swing.JMenu();
+        jMenuItemMedicoAdd = new javax.swing.JMenuItem();
+        JMenuItemMedicoList = new javax.swing.JMenuItem();
+        jMenuConsultas = new javax.swing.JMenu();
+        jMenuItemConsultaAdd = new javax.swing.JMenuItem();
         cadastrarEspecialidade = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenuPacientes = new javax.swing.JMenu();
-        jMenuItemPacienteAdd = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItemConvenioAdd = new javax.swing.JMenuItem();
+        jMenuProntuario = new javax.swing.JMenu();
+        jMenuItemAtendimentoForm = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jMenuItemLoginPaciente.setText("Portal");
+
+        jMenuItemPacienteLogin.setText("Login");
+        jMenuItemPacienteLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPacienteLoginActionPerformed(evt);
+            }
+        });
+        jMenuItemLoginPaciente.add(jMenuItemPacienteLogin);
+
+        jMenuBar1.add(jMenuItemLoginPaciente);
+
+        jMenuPacientes.setText("Paciente");
+
+        jMenuItemPacienteAdd.setText("Cadastrar");
+        jMenuItemPacienteAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPacienteAddActionPerformed(evt);
+            }
+        });
+        jMenuPacientes.add(jMenuItemPacienteAdd);
+
+        jMenuBar1.add(jMenuPacientes);
+
+        jMenuMedicos.setText("Medicos");
+        jMenuMedicos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuMedicosActionPerformed(evt);
+            }
+        });
+
+        jMenuItemMedicoAdd.setText("Cadastrar");
+        jMenuItemMedicoAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemMedicoAddActionPerformed(evt);
+            }
+        });
+        jMenuMedicos.add(jMenuItemMedicoAdd);
+
+        JMenuItemMedicoList.setText("LIsta");
+        JMenuItemMedicoList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JMenuItemMedicoListActionPerformed(evt);
+            }
+        });
+        jMenuMedicos.add(JMenuItemMedicoList);
+
+        jMenuBar1.add(jMenuMedicos);
+
+        jMenuConsultas.setText("Consultas");
+
+        jMenuItemConsultaAdd.setText("Marcar consulta");
+        jMenuItemConsultaAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemConsultaAddActionPerformed(evt);
+            }
+        });
+        jMenuConsultas.add(jMenuItemConsultaAdd);
+
+        jMenuBar1.add(jMenuConsultas);
 
         cadastrarEspecialidade.setText("Especialidades");
 
@@ -54,23 +127,28 @@ public class MainMenu extends javax.swing.JFrame {
         jMenuBar1.add(cadastrarEspecialidade);
 
         jMenu2.setText("Convênios");
-        jMenuBar1.add(jMenu2);
 
-        jMenuPacientes.setText("Paciente");
-
-        jMenuItemPacienteAdd.setText("Cadastrar");
-        jMenuItemPacienteAdd.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemConvenioAdd.setText("Adicionar convenios");
+        jMenuItemConvenioAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemPacienteAddActionPerformed(evt);
+                jMenuItemConvenioAddActionPerformed(evt);
             }
         });
-        jMenuPacientes.add(jMenuItemPacienteAdd);
+        jMenu2.add(jMenuItemConvenioAdd);
 
-        jMenuItem4.setText("Listar");
-        jMenuItem4.setActionCommand("Listar");
-        jMenuPacientes.add(jMenuItem4);
+        jMenuBar1.add(jMenu2);
 
-        jMenuBar1.add(jMenuPacientes);
+        jMenuProntuario.setText("Prontuario");
+
+        jMenuItemAtendimentoForm.setText("Iniciar Atendimento");
+        jMenuItemAtendimentoForm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAtendimentoFormActionPerformed(evt);
+            }
+        });
+        jMenuProntuario.add(jMenuItemAtendimentoForm);
+
+        jMenuBar1.add(jMenuProntuario);
 
         setJMenuBar(jMenuBar1);
 
@@ -100,6 +178,43 @@ public class MainMenu extends javax.swing.JFrame {
         pacienteAddForm.setVisible(true);
     }//GEN-LAST:event_jMenuItemPacienteAddActionPerformed
 
+    private void jMenuItemMedicoAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemMedicoAddActionPerformed
+      MedicoAddForm medicoAddForm = new MedicoAddForm();
+        medicoAddForm.pack();
+        medicoAddForm.setVisible(true);
+    }//GEN-LAST:event_jMenuItemMedicoAddActionPerformed
+
+    private void jMenuMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuMedicosActionPerformed
+       MedicoAddForm medicoAddForm = new MedicoAddForm();
+        medicoAddForm.pack();
+        medicoAddForm.setVisible(true);
+    }//GEN-LAST:event_jMenuMedicosActionPerformed
+
+    private void JMenuItemMedicoListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMenuItemMedicoListActionPerformed
+        MedicoListForm medicoListForm = new MedicoListForm();
+        medicoListForm.setVisible(true);
+    }//GEN-LAST:event_JMenuItemMedicoListActionPerformed
+
+    private void jMenuItemConsultaAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemConsultaAddActionPerformed
+        ConsultaAddForm consultaAddForm = new ConsultaAddForm();
+        consultaAddForm.setVisible(true);
+    }//GEN-LAST:event_jMenuItemConsultaAddActionPerformed
+
+    private void jMenuItemAtendimentoFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAtendimentoFormActionPerformed
+        AtendimentoForm atendimentoForm = new AtendimentoForm();
+        atendimentoForm.setVisible(true);
+    }//GEN-LAST:event_jMenuItemAtendimentoFormActionPerformed
+
+    private void jMenuItemPacienteLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPacienteLoginActionPerformed
+       PacienteLoginForm loginForm = new PacienteLoginForm();
+        loginForm.setVisible(true);
+    }//GEN-LAST:event_jMenuItemPacienteLoginActionPerformed
+
+    private void jMenuItemConvenioAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemConvenioAddActionPerformed
+       ConvenioAddForm convenioForm = new ConvenioAddForm();
+        convenioForm.setVisible(true);
+    }//GEN-LAST:event_jMenuItemConvenioAddActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -122,16 +237,25 @@ public class MainMenu extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new MainMenu().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new MainMenu(PerfilUsuario.SECRETARIA).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem JMenuItemMedicoList;
     private javax.swing.JMenu cadastrarEspecialidade;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuConsultas;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItemAtendimentoForm;
+    private javax.swing.JMenuItem jMenuItemConsultaAdd;
+    private javax.swing.JMenuItem jMenuItemConvenioAdd;
+    private javax.swing.JMenu jMenuItemLoginPaciente;
+    private javax.swing.JMenuItem jMenuItemMedicoAdd;
     private javax.swing.JMenuItem jMenuItemPacienteAdd;
+    private javax.swing.JMenuItem jMenuItemPacienteLogin;
+    private javax.swing.JMenu jMenuMedicos;
     private javax.swing.JMenu jMenuPacientes;
+    private javax.swing.JMenu jMenuProntuario;
     // End of variables declaration//GEN-END:variables
 }

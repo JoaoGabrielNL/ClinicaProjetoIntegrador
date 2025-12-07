@@ -101,7 +101,7 @@ public class PesquisadeSatidfacaoAddForm extends javax.swing.JFrame {
                             .addComponent(jButton3)
                             .addComponent(jButton4)
                             .addComponent(jButton5))))
-                .addContainerGap(223, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
